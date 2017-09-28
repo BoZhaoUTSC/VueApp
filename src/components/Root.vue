@@ -10,6 +10,7 @@
       <div v-show="currentTab === 'new-selection'">
         <fsizes></fsizes>
         <fdrinks drinks="drinks"></fdrinks>
+        <fmodifiers></fmodifiers>
       </div>
       <div v-show="currentTab === 'selection-summary'">
         showing selection summary
@@ -20,11 +21,13 @@
 <script>
 import Fsizes from './Fsizes.vue'
 import Fdrinks from './Fdrinks.vue'
+import Fmodifiers from './Fmodifiers.vue'
 export default {
   name: 'root',
   components: {
     Fdrinks,
-    Fsizes
+    Fsizes,
+    Fmodifiers
   },
   data () {
     return {
