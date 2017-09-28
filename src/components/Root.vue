@@ -8,6 +8,7 @@
     </nav>
 
       <div v-show="currentTab === 'new-selection'">
+        <fsizes></fsizes>
         <fdrinks drinks="drinks"></fdrinks>
       </div>
       <div v-show="currentTab === 'selection-summary'">
@@ -17,12 +18,13 @@
 </template>
 
 <script>
+import Fsizes from './Fsizes.vue'
 import Fdrinks from './Fdrinks.vue'
-import axios from 'axios'
 export default {
   name: 'root',
   components: {
-    Fdrinks
+    Fdrinks,
+    Fsizes
   },
   data () {
     return {
@@ -30,15 +32,6 @@ export default {
       drinks: [],
       errors: []
     }
-  },
-  created () {
-    axios.get('http://localhost:3000/drinks')
-    .then(res => {
-      this.drinks = res.data
-    })
-    .catch(error => {
-      this.errors.push(error)
-    })
   },
   methods: {
     changeTab: function (tabName) {

@@ -5,6 +5,7 @@
     </h1>
     <div class="drinks-row">
         <div v-for="drink in this.drinks">
+          <!-- only render that drinks that are available -->
           <div v-if="drink.isAvailable">
             <fdrink :drinkname="drink.name" :cost="drink.cost"></fdrink>
           </div>
@@ -29,6 +30,7 @@ export default {
   },
 
   created () {
+    // get all the drinks
     axios.get('http://localhost:3000/drinks')
     .then(res => {
       this.drinks = res.data
