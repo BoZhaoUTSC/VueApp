@@ -1,0 +1,72 @@
+{
+    "drinks": [
+        {
+            "id": 1,
+            "name": "coffee",
+            "cost": 1.00,
+            "isAvailable": true,
+            "recipe": []
+        },
+        {
+            "id": 2,
+            "name": "latte",
+            "cost": 1.50,
+            "isAvailable": true,
+            "recipe": ["espresso", "steamed milk"]
+        },
+        {
+            "id": 3,
+            "name": "smoothies",
+            "cost": 2.00,
+            "isAvailable": true,
+            "recipe": []
+        },
+        {
+            "id": 3,
+            "name": "espresso",
+            "cost": 2.50,
+            "isAvailable": true,
+            "recipe": []
+        },
+        {
+            "id": 3,
+            "name": "steamed milk",
+            "cost": 0.80,
+            "isAvailable": false,
+            "recipe": []
+        }
+    ],
+    "modifiers": [
+        {
+            "id": 1,
+            "name": "sugar",
+            "cost": 0.30,
+            "isAvailable": true
+        },
+        {
+            "id": 2,
+            "name": "milk",
+            "cost": 0,
+            "isAvailable": true
+        },
+        {
+            "id": 3,
+            "name": "chocolate syrup",
+            "cost": 0.50,
+            "isAvailable": true
+        },
+        {
+            "id": 4,
+            "name": "whipped cream",
+            "cost": 0.50,
+            "isAvailable": false
+        }
+    ],
+    "sizes": ["small", "medium", "large"],
+    "transactions": [
+        {
+            "id": 1,
+            "total": 5.00
+        }
+    ]
+}
