@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+
 import Fmodifier from './Fmodifier.vue'
 import Fdrink from './Fdrink.vue'
 export default {
@@ -24,6 +24,7 @@ export default {
   },
   data () {
     return {
+      total: this.getTotal(),
       errors: []
     }
   },
@@ -42,7 +43,7 @@ export default {
         return a + b
       }, 0)
       var result = (baseDrinksPrice + modifiersPrice) * this.pending.quantity
-      console.log(result)
+      this.$emit('reportTotal', result)
       return result
     }
   }
@@ -65,6 +66,7 @@ export default {
     right: 0px
     width: 300px
     padding: 10px
+
 
 
 </style>

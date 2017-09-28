@@ -28,6 +28,14 @@
             <fsummary :pending="pending"></fsummary>
           </div>
         </div>
+        <div>
+          <button v-if="addedDrinks.length > 0" @click="logPurchase" @getTotal="addGrandTotal($event)">
+            Purchase
+          </button>
+          <div v-else>
+            <h1 class="no-selection">No Selections</h1>
+          </div>
+        </div>
       </div>
   </div>
 </template>
@@ -39,7 +47,7 @@ import Fdrinks from './Fdrinks.vue'
 import Fmodifiers from './Fmodifiers.vue'
 import Fcomfirm from './Fconfirm.vue'
 import Fsummary from './Fsummary.vue'
-
+import axios from 'axios'
 export default {
   name: 'root',
   components: {
@@ -62,7 +70,8 @@ export default {
       errors: [],
       addedDrinks: [],
       isVerified: false,
-      result: ''
+      result: '',
+      grandTotal: 0
     }
   },
   methods: {
@@ -110,6 +119,20 @@ export default {
 
     clearAll: function () {
       this.result = ''
+    },
+
+    logPurchase: function () {
+      axios.put(`localhost:3000/transactions`, {
+        body: {'total': this.grandTotal}
+      })
+      .then(res => {})
+      .catch(error => {
+        this.errors.push(error)
+      })
+    },
+
+    addGrandTotal: function (total) {
+      this.grandTotal += total
     }
   }
 }
@@ -146,12 +169,23 @@ a
 .drinks-in-summary
   display: flex
 
+button
+  background-color: $background-color
+  margin: 10px
+  width: 15%
+  color: white
+  padding: 20px 32px
+  text-align: center
+  text-decoration: none
+  display: inline-block
+  font-size: 25px
+
 
 @media screen and (max-width: 1080px)
   nav ul li
     width: 100%
     box-sizing: border-box
 
-
-
+.no-selection
+  margin-top: 100px
 </style>
