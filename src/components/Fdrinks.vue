@@ -25,30 +25,32 @@ export default {
 
   data () {
     return {
-      drinks: [],
-      selectedDrinks: []
+      drinks: [], // a list of all the drinks
+      selectedDrinks: [], // a list of all the drinks selected {name, cost}
+      errors: []
     }
   },
 
   created () {
     // get all the drinks
     axios.get('http://localhost:3000/drinks')
-    .then(res => {
-      this.drinks = res.data
-    })
-    .catch(error => {
-      this.errors.push(error)
-    })
+      .then(res => {
+        this.drinks = res.data
+      })
+      .catch(error => {
+        this.errors.push(error)
+      })
   },
 
   methods: {
-    udpateSelectedDrinks: function (drinkName) {
-      var i = this.selectedDrinks.indexOf(drinkName)
+    udpateSelectedDrinks: function (namePrice) {
+      console.log(namePrice)
+      var i = this.selectedDrinks.indexOf(namePrice)
       // remove from selected this drink is selected
       if (i >= 0) {
         this.selectedDrinks.splice(i, 1)
       } else { // add to selected if not selected
-        this.selectedDrinks.push(drinkName)
+        this.selectedDrinks.push(namePrice)
       }
       this.$emit('selectedDrinks', this.selectedDrinks)
     }

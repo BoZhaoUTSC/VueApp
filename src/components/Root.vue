@@ -6,30 +6,43 @@
             <a href="#" @click="changeTab('selection-summary')"><li>Selection Summary</li></a>
         </ul>
     </nav>
+      <!-- show all options for adding a new drink for current purchase -->
       <div v-show="currentTab === 'new-selection'">
         <fsizes @selectSize="updateSize($event)"></fsizes>
         <fdrinks @selectedDrinks="updateBaseDrink($event)"></fdrinks>
         <fmodifiers></fmodifiers>
         <fcomfirm :result="this.result" @addNew="verifyPendingDrink"></fcomfirm>
       </div>
+      <!-- show all added drinks for current purchase -->
       <div v-show="currentTab === 'selection-summary'">
-        showing selection summary
+        <h1>
+            Selection Summary
+        </h1>
+        <div class="drinks in summary">
+          <div class="one-drink-in-summary" v-for="drink in addedDrinks">
+            <fsummary :drink="drink"></fsummary>
+          </div>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
+
 import Fsizes from './Fsizes.vue'
 import Fdrinks from './Fdrinks.vue'
 import Fmodifiers from './Fmodifiers.vue'
 import Fcomfirm from './Fconfirm.vue'
+import Fsummary from './Fsummary.vue'
+
 export default {
   name: 'root',
   components: {
     Fdrinks,
     Fsizes,
     Fmodifiers,
-    Fcomfirm
+    Fcomfirm,
+    Fsummary
   },
   data () {
     return {
@@ -41,7 +54,8 @@ export default {
         quantity: 0
       },
       errors: [],
-      result: ''
+      result: '',
+      addedDrinks: []
     }
   },
   methods: {
@@ -57,17 +71,22 @@ export default {
       } else if (!this.pending.quantity === 0) {
         this.result = 'Quantity cannot be 0'
       } else {
+        // report quantity
         this.pending.quantity += 1
         this.result = 'Added, quantity is ' + this.pending.quantity + '.'
+        // add this drink and its quatity into current purchase
+        this.addedDrinks.push(this.pending)
       }
     },
 
     updateSize: function (size) {
       this.pending.size = size
+      this.quantity = 0
     },
 
     updateBaseDrink: function (baseDrinks) {
       this.pending.baseDrinks = baseDrinks
+      this.quantity = 0
     }
   }
 }
@@ -78,32 +97,38 @@ export default {
 $background-color: #00BFFF
 
 nav ul
-    background-color: $background-color
-    text-align: center
-    overflow: hidden
-    padding: 0
-    margin: 0
-    color: white
+  background-color: $background-color
+  text-align: center
+  overflow: hidden
+  padding: 0
+  margin: 0
+  color: white
 
 nav
-    ul
-        li
-            display: inline-block
-            padding: 20px
-            width: 30%
+  ul
+    li
+      display: inline-block
+      padding: 20px
+      width: 30%
 
 nav
-    ul
-        li:hover
-            background-color: $background-color + 40
+  ul
+    li:hover
+      background-color: $background-color + 40
 
 a
-    color: inherit
-    font-size: 32px
+  color: inherit
+  font-size: 32px
+
+.drinks-in-summary
+  display: flex
 
 
 @media screen and (max-width: 1080px)
-    nav ul li
-        width: 100%
-        box-sizing: border-box
+  nav ul li
+    width: 100%
+    box-sizing: border-box
+
+
+
 </style>

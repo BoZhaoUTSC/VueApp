@@ -25,7 +25,8 @@ export default {
   methods: {
     toggleIsSelected: function () {
       this.isSelected = !this.isSelected
-      this.$emit('drinkSelect', this.drinkname)
+      var namePrice = {name: this.drinkname, price: this.cost}
+      this.$emit('drinkSelect', namePrice)
     }
   }
 }
