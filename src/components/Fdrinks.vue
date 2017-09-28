@@ -4,12 +4,12 @@
         Base Drinks
     </h1>
     <div class="drinks-row">
-        <div v-for="drink in this.drinks">
-          <!-- only render that drinks that are available -->
-          <div v-if="drink.isAvailable">
-            <fdrink :drinkname="drink.name" :cost="drink.cost"></fdrink>
-          </div>
+      <div v-for="drink in this.drinks">
+        <!-- only render that drinks that are available -->
+        <div v-if="drink.isAvailable">
+          <fdrink :drinkname="drink.name" :cost="drink.cost" @drinkSelect="udpateSelectedDrinks($event)"></fdrink>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +25,8 @@ export default {
 
   data () {
     return {
-      drinks: []
+      drinks: [],
+      selectedDrinks: []
     }
   },
 
@@ -38,6 +39,19 @@ export default {
     .catch(error => {
       this.errors.push(error)
     })
+  },
+
+  methods: {
+    udpateSelectedDrinks: function (drinkName) {
+      var i = this.selectedDrinks.indexOf(drinkName)
+      // remove from selected this drink is selected
+      if (i >= 0) {
+        this.selectedDrinks.splice(i, 1)
+      } else { // add to selected if not selected
+        this.selectedDrinks.push(drinkName)
+      }
+      this.$emit('selectedDrinks', this.selectedDrinks)
+    }
   }
 }
 

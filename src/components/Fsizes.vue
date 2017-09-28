@@ -4,9 +4,9 @@
         Sizes
     </h1>
     <div class="sizes-row">
-        <button class="small">Small</button>
-        <button class="medium">Medium</button>
-        <button class="large">Large</button>
+        <button class="small" @click="selectSize('small')">Small</button>
+        <button class="medium" @click="selectSize('medium')">Medium</button>
+        <button class="large" @click="selectSize('large')">Large</button>
     </div>
   </div>
 </template>
@@ -17,7 +17,11 @@ export default {
 
   data () {
     return {
-      drinks: []
+    }
+  },
+  methods: {
+    selectSize: function (size) {
+      this.$emit('selectSize', size)
     }
   }
 }

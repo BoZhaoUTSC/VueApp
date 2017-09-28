@@ -6,10 +6,9 @@
             <a href="#" @click="changeTab('selection-summary')"><li>Selection Summary</li></a>
         </ul>
     </nav>
-
       <div v-show="currentTab === 'new-selection'">
-        <fsizes></fsizes>
-        <fdrinks></fdrinks>
+        <fsizes @selectSize="updateSize($event)"></fsizes>
+        <fdrinks @selectedDrinks="updateBaseDrink($event)"></fdrinks>
         <fmodifiers></fmodifiers>
         <fcomfirm :result="this.result" @addNew="verifyPendingDrink"></fcomfirm>
       </div>
@@ -39,7 +38,7 @@ export default {
         size: '',
         baseDrinks: [],
         modifiers: [],
-        quantity: []
+        quantity: 0
       },
       errors: [],
       result: ''
@@ -58,8 +57,17 @@ export default {
       } else if (!this.pending.quantity === 0) {
         this.result = 'Quantity cannot be 0'
       } else {
-        this.result = 'Added, quantity is ' + this.pending + '.'
+        this.pending.quantity += 1
+        this.result = 'Added, quantity is ' + this.pending.quantity + '.'
       }
+    },
+
+    updateSize: function (size) {
+      this.pending.size = size
+    },
+
+    updateBaseDrink: function (baseDrinks) {
+      this.pending.baseDrinks = baseDrinks
     }
   }
 }

@@ -25,6 +25,7 @@ export default {
   methods: {
     toggleIsSelected: function () {
       this.isSelected = !this.isSelected
+      this.$emit('drinkSelect', this.drinkname)
     }
   }
 }

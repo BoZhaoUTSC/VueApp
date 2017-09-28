@@ -7,7 +7,7 @@
       <button class="add" @click="addNew">Add</button>
       <button class="clear">Clear</button>
       <span>
-        <h2>{{result}}</h2>
+        <h2>{{ result }}</h2>
       </span>
     </div>
   </div>
