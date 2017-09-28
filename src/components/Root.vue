@@ -9,8 +9,9 @@
 
       <div v-show="currentTab === 'new-selection'">
         <fsizes></fsizes>
-        <fdrinks drinks="drinks"></fdrinks>
+        <fdrinks></fdrinks>
         <fmodifiers></fmodifiers>
+        <fcomfirm :result="this.result" @addNew="verifyPendingDrink"></fcomfirm>
       </div>
       <div v-show="currentTab === 'selection-summary'">
         showing selection summary
@@ -22,23 +23,43 @@
 import Fsizes from './Fsizes.vue'
 import Fdrinks from './Fdrinks.vue'
 import Fmodifiers from './Fmodifiers.vue'
+import Fcomfirm from './Fconfirm.vue'
 export default {
   name: 'root',
   components: {
     Fdrinks,
     Fsizes,
-    Fmodifiers
+    Fmodifiers,
+    Fcomfirm
   },
   data () {
     return {
       currentTab: 'new-selection',
-      drinks: [],
-      errors: []
+      pending: {
+        size: '',
+        baseDrinks: [],
+        modifiers: [],
+        quantity: []
+      },
+      errors: [],
+      result: ''
     }
   },
   methods: {
     changeTab: function (tabName) {
       this.currentTab = tabName
+    },
+
+    verifyPendingDrink: function () {
+      if (this.pending.size === '') {
+        this.result = 'Select drink size'
+      } else if (this.pending.baseDrinks.length === 0) {
+        this.result = 'Select at least one base drink'
+      } else if (!this.pending.quantity === 0) {
+        this.result = 'Quantity cannot be 0'
+      } else {
+        this.result = 'Added, quantity is ' + this.pending + '.'
+      }
     }
   }
 }
