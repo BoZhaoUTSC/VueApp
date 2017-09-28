@@ -44,11 +44,14 @@ export default {
 
   methods: {
     udpateSelectedDrinks: function (namePrice) {
-      console.log(namePrice)
-      var i = this.selectedDrinks.indexOf(namePrice)
+      var i = this.selectedDrinks.filter(ele => {
+        return ele.name === namePrice.name
+      }).length
       // remove from selected this drink is selected
-      if (i >= 0) {
-        this.selectedDrinks.splice(i, 1)
+      if (i > 0) {
+        this.selectedDrinks = this.selectedDrinks.filter(ele => {
+          return ele.name !== namePrice.name
+        })
       } else { // add to selected if not selected
         this.selectedDrinks.push(namePrice)
       }

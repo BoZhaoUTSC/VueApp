@@ -5,7 +5,7 @@
     </h1>
     <div class="sizes-row">
       <button class="add" @click="addNew">Add</button>
-      <button class="clear">Clear</button>
+      <button class="clear" @click="clearAll">Clear</button>
       <span>
         <h2>{{ result }}</h2>
       </span>
@@ -24,6 +24,10 @@ export default {
   methods: {
     addNew: function () {
       this.$emit('addNew')
+    },
+
+    clearAll: function () {
+      this.$emit('clearAll')
     }
   }
 }

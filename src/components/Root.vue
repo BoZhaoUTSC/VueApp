@@ -2,25 +2,30 @@
   <div>
     <nav>
         <ul>
-            <a href="#" @click="changeTab('new-selection')"><li>New Selection</li></a>
-            <a href="#" @click="changeTab('selection-summary')"><li>Selection Summary</li></a>
+            <a href="#" @click="changeTab('new-selection')">
+              <li>New Selection</li>
+            </a>
+            <a href="#" @click="changeTab('selection-summary'); addToSummary()">
+              <li>Selection Summary</li>
+            </a>
         </ul>
     </nav>
       <!-- show all options for adding a new drink for current purchase -->
       <div v-show="currentTab === 'new-selection'">
         <fsizes @selectSize="updateSize($event)"></fsizes>
         <fdrinks @selectedDrinks="updateBaseDrink($event)"></fdrinks>
-        <fmodifiers></fmodifiers>
-        <fcomfirm :result="this.result" @addNew="verifyPendingDrink"></fcomfirm>
+        <fmodifiers @changeModifiers="updateModifiers($event)"></fmodifiers>
+        <fcomfirm :result="this.result" @addNew="verifyPendingDrink" @clearAll="clearAll"></fcomfirm>
       </div>
+
       <!-- show all added drinks for current purchase -->
       <div v-show="currentTab === 'selection-summary'">
         <h1>
             Selection Summary
         </h1>
         <div class="drinks in summary">
-          <div class="one-drink-in-summary" v-for="drink in addedDrinks">
-            <fsummary :drink="drink"></fsummary>
+          <div class="one-drink-in-summary" v-for="pending in addedDrinks">
+            <fsummary :pending="pending"></fsummary>
           </div>
         </div>
       </div>
@@ -47,15 +52,17 @@ export default {
   data () {
     return {
       currentTab: 'new-selection',
-      pending: {
+      pending: { // current selction
         size: '',
         baseDrinks: [],
         modifiers: [],
-        quantity: 0
+        quantity: 0,
+        valid: false
       },
       errors: [],
-      result: '',
-      addedDrinks: []
+      addedDrinks: [],
+      isVerified: false,
+      result: ''
     }
   },
   methods: {
@@ -65,28 +72,44 @@ export default {
 
     verifyPendingDrink: function () {
       if (this.pending.size === '') {
-        this.result = 'Select drink size'
+        this.result = 'Select drink size.'
       } else if (this.pending.baseDrinks.length === 0) {
-        this.result = 'Select at least one base drink'
+        this.result = 'Select at least one base drink.'
       } else if (!this.pending.quantity === 0) {
-        this.result = 'Quantity cannot be 0'
+        this.result = 'Quantity cannot be 0.'
       } else {
         // report quantity
         this.pending.quantity += 1
         this.result = 'Added, quantity is ' + this.pending.quantity + '.'
-        // add this drink and its quatity into current purchase
+        this.isVerified = true
+      }
+    },
+
+    updateModifiers: function (namePriceQuantity) {
+      this.pending.modifiers = [namePriceQuantity]
+    },
+
+    addToSummary: function () {
+      if (this.isVerified) {
         this.addedDrinks.push(this.pending)
       }
+      this.isVerified = false
     },
 
     updateSize: function (size) {
       this.pending.size = size
-      this.quantity = 0
+      this.pending.quantity = 0
     },
 
     updateBaseDrink: function (baseDrinks) {
       this.pending.baseDrinks = baseDrinks
-      this.quantity = 0
+      this.pending.quantity = 0
+      this.addToSummary()
+      this.clearAll()
+    },
+
+    clearAll: function () {
+      this.result = ''
     }
   }
 }

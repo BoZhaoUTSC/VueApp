@@ -38,6 +38,17 @@ $border-active: solid
 $border-color: #00BFFF
 $border-color-selected: $border-color - 40
 
+.base
+  width: 200px
+  display: block
+  margin: 20px
+  height: 80%
+  padding: 0
+  border-color: white
+  border-style: solid
+  overflow: hidden
+  cursor: pointer
+
 .img-div
   width: 90%
   max-height: 100px
@@ -45,17 +56,6 @@ $border-color-selected: $border-color - 40
   display: block
   box-shadow: 10
   border-bottom-style: ridge
-
-.base
-  display: block
-  margin: 20px
-  width: 200px
-  height: 80%
-  padding: 0
-  border-color: white
-  border-style: solid
-  overflow: hidden
-  cursor: pointer
 
 .base
   div
@@ -71,7 +71,5 @@ $border-color-selected: $border-color - 40
 
 .base:active
   border-style: $border-active
-
-
 
 </style>

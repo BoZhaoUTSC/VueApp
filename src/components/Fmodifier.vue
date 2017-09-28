@@ -1,8 +1,8 @@
 <template>
-    <div class="base"  :class="{ selected: quantity > 0 }">
+    <div class="base"  :class="{ selected: namePriceQuantity.quantity > 0 }">
       <div class="middle">
         <div class="info" @click="increaseCount()">
-            {{ modifiername  + " $" + cost + " X " + quantity }}
+            {{ modifiername  + " $" + cost + " X " + namePriceQuantity.quantity }}
         </div>
         <div class="less" @click="decreaseCount()">
             {{ "less" }}
@@ -17,16 +17,22 @@ export default {
   props: ['modifiername', 'cost'],
   data () {
     return {
-      quantity: 0
+      namePriceQuantity: {
+        quantity: 0,
+        price: this.cost,
+        name: this.modifiername
+      }
     }
   },
   methods: {
     increaseCount: function () {
-      this.quantity += 1
+      this.namePriceQuantity.quantity += 1
+      this.$emit('changeModifier', this.namePriceQuantity)
     },
     decreaseCount: function () {
-      if (this.quantity > 0) {
-        this.quantity -= 1
+      if (this.namePriceQuantity.quantity > 0) {
+        this.namePriceQuantity.quantity -= 1
+        this.$emit('changeModifier', this.namePriceQuantity)
       }
     }
   }
